@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Example Backbone App - Code Fellows</title>
+  <!-- load the bootstrap stylesheet -->
+  <link href="css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+     <!-- my stylesheet -->
+  <link href="css/mycss.css" media="all" rel="stylesheet" type="text/css" />
+  <!-- load the libraries we need -->
+  <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+  <script type="text/javascript" src="js/libs/underscore.min.js"></script>
+  <script type="text/javascript" src="js/libs/backbone.min.js"></script>
+  <!-- load our scripts -->
+  <script type="text/javascript" src="js/note_router.js"></script>
+  <script type="text/javascript" src="js/models/note_model.js"></script>
+  <script type="text/javascript" src="js/views/note_index.js"></script>
+  <script type="text/javascript" src="js/views/note_row.js"></script>
+  <script type="text/javascript" src="js/views/note_new.js"></script>
+  <script type="text/javascript" src="js/views/note_edit.js"></script>
+  <script type="text/javascript" src="js/views/note_show.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Backbone.js App - Code Fellows JS Challenge</h1>
+    </div>
+
+    <p class="lead">
+      Go ahead, add some users. Then, edit, update, and delete them.
+    </p>
+
+    <div class="row">
+      <div class="span6" id="primary-content">
+        <!-- the container that gets populated with the index -->
+      </div>
+      
+    </div>
+
+  </div>
+  <!-- the form, used for create and edit -->
+  <script type="text/jst" id="formTemplate">
+    <div class="well">
+      <div class="alert alert-error" style="display:none;"></div>
+      <form>
+        <h2 class="form-signin-heading"></h2>
+        <div class="control-group">
+          <input type="text" class="input-block-level" name="first_name" placeholder="First Name" value="<%= first_name %>" />
+        </div>
+        <div class="control-group">
+          <input type="text" class="input-block-level" name="last_name" placeholder="Last Name" value="<%= last_name %>" />
+        </div>
+        <div class="control-group">
+          <textarea class="input-block-level" rows="1" name="email_address" placeholder="Email Address"><%= email_address %></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="save btn btn-large btn-info" type="submit">Save</button> or
+          <a href="#notes/index" class="btn btn-large">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </script>
+  <!-- the index container -->
+  <script type="text/template" id="indexTemplate">
+    <div class="well">
+      <a class="btn btn-block btn-large btn-info" href="#note/new">Create New User</a>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th width="20%">First Name</th>
+          <th width="20%">Last Name</th>
+          <th>Email Address</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    
+  </script>
+  <!-- the row template, renders once for each item in the index -->
+  <script type="text/template" id="rowTemplate">
+    <td>
+      <%= first_name %>
+    </td>
+    <td><%= last_name %></td>
+    <td><% print(email_address.substring(0, 100)) %>...</td>
+     <td>
+      <a href="#note/<%= id %>/view" class="btn">edit</a>
+    </td>
+    <td>
+      <a href="#" class="delete btn btn-danger btn-small">delete</a>
+    </td>
+  </script>
+  <!-- the show template -->
+  <script type="text/template" id="showTemplate">
+    <div class="well">
+      <a class="btn btn-large" href="#notes/index">
+        Back To Index
+      </a>
+      <a class="btn btn-large btn-info" href="#note/<%= id %>/edit">
+        Edit User
+      </a>
+    </div>
+    <h2>
+      <%= first_name %>
+      <small>by: <%= last_name %></small>
+    </h2>
+    <p style="white-space:pre-wrap;"><%= email_address %></p>
+  </script>
+
+  <script type="text/javascript">
+    var notes = new APP.Collections.NoteCollection();
+    var router = new APP.Routers.NoteRouter({notes: notes});
+
+    Backbone.history.start();
+    // we manually pass in the initial data, but this would be called with a collection.fetch() normally
+    notes.reset([
+                  {
+                    "first_name": "John",
+                    "id": "45",
+                    "last_name": "Smith",
+                    "email_address": "jsmith@email.com"
+                  },
+                  {
+                    "first_name": "Jane",
+                    "id": "46",
+                    "last_name": "Doe",
+                    "email_address": "jdoe@email.com"
+                  },
+                  {
+                    "first_name": "Will",
+                    "id": "47",
+                    "last_name": "Smith",
+                    "email_address": "wsmith@email.com"
+                  }
+                ]
+              );
+  </script>
+    
+</body>
+</html>
